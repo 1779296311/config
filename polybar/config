@@ -1,0 +1,306 @@
+[bar/i3wmthemer_bar]
+monitor = eDP1
+width = 100%
+height = 17
+radius = 0
+fixed-center = false
+background = #1c1c22
+foreground = #d9d6ca
+line-size = 3
+line-color =
+border-size = 0
+border-color =
+padding-left = 0
+padding-right = 0
+module-margin-left = 0
+module-margin-right = 0
+font-0 = "Ubuntu Nerd Font Mono:style=Bold:size=10;3"
+font-1 = "STHeiti:size=10;1"
+font-2 = "Source Code Pro for Powerline:style=Bold:size=11;3"
+font-3 = "Noto Sans Symbols2:size=13;1"
+modules-center = 
+modules-left = i3 title
+;modules-right =  arrow7 updates-arch-combined arrow0 cpu arrow1 memory arrow2 network-traffic arrow3 spotify arrow4 arrow5 date weather arrow6 login keyboard arrow8 pulseaudio arrow9
+modules-right =   arrow7 updates-arch-combined arrow0 cpu arrow1 memory arrow2 network-traffic arrow3  wlan  arrow5 date weather arrow8 pulseaudio arrow9 battery
+tray-position = right
+tray-background = #394357
+tray-padding = 1
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+
+[module/i3]
+type                       = internal/i3
+format                     = <label-state> <label-mode>
+index-sort                 = true
+wrapping-scroll            = false
+label-mode-padding         = 2
+label-mode-foreground      = #dbe6f4
+label-mode-background      = #dbe6f4
+label-focused-background   = #cb4b16
+label-focused-foreground   = #dbe6f4
+label-focused-padding      = 1
+label-unfocused-background = #2b5278
+label-unfocused-foreground = #dbe6f4
+label-unfocused-padding    = 1
+label-visible-background   = #2b5278
+label-visible-foreground   = #dbe6f4
+label-visible-padding      = 1
+label-urgent-background    = #BA2922
+label-urgent-padding       = 1
+enable-click               = false
+format-font                = 3
+
+[module/workspace-name]
+type                     = internal/i3
+strip-wsnumbers          = true
+format                   = <label-state>
+label-focused            = %name%
+label-focused-padding    = 2
+label-focused-foreground = #dbe6ff
+label-focused-underline  = #dbe6ff
+label-unfocused          =
+label-urgent             = %name%
+label-urgent-foreground  = #dbe6f4
+label-urgent-background  = #dbe6f4
+label-urgent-padding     = 2
+
+[module/wlan]
+type                     = internal/network
+interface                = wlo1
+interval                 = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+format-connected-foreground = #dbe6f4
+format-connected-background = #2b5278
+format-connected-padding    = 2
+label-connected             = %essid% %local_ip%
+
+format-disconnected         =
+
+ramp-signal-0               = 
+ramp-signal-1               = 
+ramp-signal-2               = 
+ramp-signal-3               = 
+ramp-signal-4               = 
+ramp-signal-foreground      = #dbe6f4
+
+[module/eth]
+type                               = internal/network
+interface                          = wlo1
+interval                           = 3.0
+
+format-connected-padding           = 2
+format-connected-foreground        = #dbe6f4
+format-connected-background        = #2b5278
+format-connected-prefix            = " "
+format-connected-prefix-foreground = #dbe6f4
+label-connected                    = %local_ip%
+format-disconnected                =
+[module/date]
+type                               = internal/date
+interval                           = 5
+date                               = " %m-%d"
+date-alt                           = " %Y-%m-%d"
+time                               = %H:%M
+time-alt                           = %H:%M:%S
+format-prefix                      = " "
+format-foreground                  = #1c1c22
+format-background                  = #8c9440
+format-padding-left                = 1
+format-padding-right               = 0
+label                              = %date% %time%
+label-font                         = 3
+
+[module/cpu]
+type                = internal/cpu
+interval            = 3
+format              = <label>
+label               = " %percentage%%"
+label-foreground    = #dbe6f4
+label-background    = #655faf
+label-font          = 3
+label-padding       = 1
+
+[module/memory]
+type                = internal/memory
+interval            = 3
+format              = <label>
+label               =  %gb_used%/%gb_free%
+label-font          = 3
+label-foreground    = #dbe6f4
+label-background    = #5f87af
+label-padding       = 1
+
+
+[module/battery]
+type                              = internal/battery
+battery                           = BAT0
+adapter                           = AC
+full-at                           = 98
+
+format-charging                   = <animation-charging> <label-charging>
+format-charging-underline         = #ffb52a
+
+format-discharging                = <animation-discharging> <label-discharging>
+format-discharging-underline      = ${self.format-charging-underline}
+
+format-full-prefix                = " "
+format-full-prefix-foreground     = #A3BE87
+
+ramp-capacity-0                   = 
+ramp-capacity-1                   = 
+ramp-capacity-2                   = 
+ramp-capacity-foreground          = #A3BE87
+
+animation-charging-0              = 
+animation-charging-1              = 
+animation-charging-2              = 
+animation-charging-foreground     = #A3BE87
+animation-charging-framerate      = 750
+
+animation-discharging-0           = 
+animation-discharging-1           = 
+animation-discharging-2           = 
+animation-discharging-foreground  = #A3BE87
+animation-discharging-framerate   = 750
+
+[module/pulseaudio]
+type                      = internal/pulseaudio
+label-muted               = " ﱝ muted"
+label-muted-foreground    = #BF616A
+label-muted-underline     = #BF616A
+master-soundcard          = default
+speaker-soundcard         = default
+headphone-soundcard       = default
+master-mixer              = Master
+format-volume             = <ramp-volume> <label-volume>
+ramp-volume-0             = 
+ramp-volume-0-foreground  = #A3BE8C
+ramp-volume-1             = 
+ramp-volume-1-foreground  = #EBCB8B
+ramp-volume-2             = 
+ramp-headphones-0         = 
+;format-volume-background = #2b5278
+;label-muted-background   = #2b5278
+format-volume-background  = #008B8B
+label-muted-background    = #008B8B
+
+[module/weather]
+type             = custom/script
+exec             = ~/.config/polybar/polybar-weather/openweathermap-detailed.sh
+interval         = 600
+label-font       = 3
+label-padding    = 1
+label-foreground = #1c1c22
+label-background = #8c9440
+
+[module/network-traffic]
+type             = custom/script
+exec             = ~/.config/polybar/polybar-network-traffic/network-traffic.sh
+tail             = true
+label-foreground = #dbe6f4
+label-background = #5f5f87
+label-font       = 3
+label-padding    = 1
+
+[module/arrowtitle]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #008B8B
+content-background = #1c1c22
+
+[module/arrow7]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #9d5faf
+content-background = #1c1c22
+
+[module/arrow0]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #655faf
+content-background = #9d5faf
+
+
+[module/arrow1]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #5f87af
+content-background = #655faf
+
+[module/arrow2]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #5f5f87
+content-background = #5f87af
+
+[module/arrow3]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #2b5278
+content-background = #5f5f87
+
+[module/arrow4]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #1c1c22
+content-background = #2b5278
+
+[module/arrow5]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #8c9440
+content-background = #2b5278
+
+[module/arrow6]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #394357
+content-background = #8c9440
+
+[module/arrow8]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #008B8B
+content-background = #8c9440
+
+[module/arrow9]
+type               = custom/text
+content            = " "
+content-font       = 4
+content-foreground = #000000
+content-background = #008B8B
+
+
+[module/title]
+type           = internal/xwindow
+format-font    = 3
+format-padding = 1
+label-maxlen   = 60
+label-empty    = Empty
+
+[module/updates-arch-combined]
+type             = custom/script
+exec             = ~/.config/polybar/polybar-network-update/updates-arch-combined.sh
+interval         = 600
+label-font       = 3
+label-padding    = 1
+label-foreground = #dbe6f4
+label-background = #9d5faf
+
+[settings]
+screenchange-reload = true
+[global/wm]
+margin-top          = 0
+margin-bottom       = 0
