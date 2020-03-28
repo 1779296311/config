@@ -4,38 +4,22 @@
 "|_| |_| |_|\__, |     |_| |_|\_/ |_|_| |_| |_|
            "|___/
 
-" ===
-" === Auto load for first time uses
-" ===
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" ====================
-" === Editor Setup ===
-" ====================
 
-"filetype plugin indent on 
 filetype plugin on
 filetype detect
-" ===
-" === System
-" ===
-"set clipboard = unnamed
 let &t_ut=''
 set autochdir
-
-
-
 set tags=~/.local/share/nvim/tags
+set completeopt-=preview
 
-" ===
-" === Editor behavior
-" ===
 set number
-"set relativenumber
+set relativenumber
 set cursorline
 set cursorcolumn
 set expandtab
@@ -50,67 +34,50 @@ set viewoptions=cursor,folds,slash,unix
 set wrap
 set tw=0
 set indentexpr=
-set foldmethod=indent
+set foldmethod=marker
 set foldlevel=99
 set formatoptions-=tc
 set splitright
 set splitbelow
 set mouse=a
-
 set ambiwidth=double
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-
-" ===
-" === Terminal Behavior
-" ===
 let g:neoterm_autoscroll = 1
 autocmd TermOpen term://* startinsert
-"tnoremap <C-N> <C-\><C-N>:q<CR>
-
-
-" ===
-" === Status bar behaviors
-" ===
 set noshowmode
 set showcmd
-" set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc
 set wildmenu
-
-" Searching options
 exec "nohlsearch"
 set ignorecase
 set smartcase
-
-
-"+y
 set clipboard=unnamedplus
-vnoremap <Leader>u "y <Bar> :call system('xclip', @y)<CR>
-" ===
-" === Basic Mappings
-" ===
-
+"+y
+vnoremap <Leader>u "y <Bar> :call system('xclip', @y)<CR><ESC><ESC>
 let mapleader=" "
-
-
 "     ^
 "     i
 "< j     l >
 "     k
 "     -
 "
-noremap j h
-noremap J H
-noremap i k
-noremap I K
-noremap k j
-noremap K J
-noremap h i
+noremap N J
+noremap S K
 noremap H I
+
+noremap j h
+noremap h i
+noremap i k
+noremap k j
+
+"Quick move
+noremap I 5k
+noremap K 5j
+noremap L 4w
+noremap J 4b
+
 noremap T R
 noremap R T
 noremap t r
@@ -127,6 +94,8 @@ noremap v  q
 noremap q  v
 noremap V  Q
 noremap Q  V
+noremap w  e
+noremap e  w
 
 nmap d[ dh[
 nmap d( dh(
@@ -174,23 +143,41 @@ iab while   while(<??>){<cr><??>;}<Esc>
 iab classs  class <??>{<cr><??>:};<Esc>
 iab try     try{<cr><??>}catch(<??>){<cr><??>}<Esc>
 iab structs struct <??>{<cr><??>;};<Esc>
-iab switch  switch(<??>){<cr>case <??>:<cr><??>;<cr>break;<cr>default:<cr>break;}<Esc>
 
-map <C-v> <C-q>
-
-map <LEADER><LEADER> <Esc>/<??><CR>:nohlsearch<CR>c4l
-noremap <LEADER>=  :Tabularize /=<CR>
-
-"tab
 map <Tab> <CR>
-"Quickly quit
+map <C-v> <C-q>
+"map <LEADER>s       zz"d9H<img style="width:100%;" src=<ESC>pA</img><ESC>k
+map     <LEADER><LEADER> <Esc>/<??><CR>:nohlsearch<CR>c4l
+map     <LEADER>s  9xHcout<<<ESC>A<<endl;<ESC>k
+noremap <LEADER>r  :source $MYVIMRC<CR>
+noremap <LEADER>co :vs $MYVIMRC<CR>
+noremap <LEADER>=  :Tabularize /=<CR>
+noremap <silent>   <LEADER>a za
+inoremap jj <c-c>
+"Quickly qui
 nmap <LEADER>q :q!<CR>
 "Quick save
 nmap <LEADER>w :w!<CR>
-
+"change win
+noremap <LEADER>i <c-w>k
+noremap <LEADER>k <c-w>j
+noremap <LEADER>j <c-w>h
+noremap <LEADER>l <c-w>l
 
 map sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
 map zn :set nosplitbelow<CR>:split<CR>:set splitright<CR>
+
+"                                nvim 变慢
+"save the change after close
+"silent !mkdir -p ~/.config/nvim/old_change/backup
+"silent !mkdir -p ~/.config/nvim/old_change/undo
+set backupdir=~/.config/nvim/old_change/backup,.
+set directory=~/.config/nvim/old_change/backup,.
+if has('persistent_undo')
+    set undofile
+    set undodir=~/.config/nvim/old_change/undo,.
+endif
+
 autocmd BufNewFile *.[ch],*.cpp,*.java,*.sh,*.py,*.php exec ":call SetTitle()"
 func SetTitle()
     if &filetype == 'php'
@@ -221,12 +208,9 @@ func SetTitle()
    endif
 endfunc
 autocmd BufNewFile * normal G
-" ===
-" === Install Plugins with Vim-Plug
-" ===
 
 call plug#begin('~/.config/nvim/plugged')
-" Pretty Dress
+"Pretty Dress
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-bufferline'
@@ -242,10 +226,6 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
 Plug 'vim-scripts/taglist.vim'
 
-" Error checking
-"Plug 'w0rp/ale'
-
-" Auto Complete
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'davidhalter/jedi-vim'
 Plug 'ncm2/ncm2'
@@ -262,11 +242,11 @@ Plug 'ncm2/ncm2-match-highlight'
 Plug 'ncm2/ncm2-markdown-subscope'
 
 
-" Language Server
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+"" Language Server
+"Plug 'autozimu/LanguageClient-neovim', {
+    "\ 'branch': 'next',
+    "\ 'do': 'bash install.sh',
+    "\ }
 
 " (Optional) Multi-entry selection UI.
 "Plug 'junegunn/fzf'
@@ -304,11 +284,7 @@ Plug 'kshenoy/vim-signature'
 
 "
 " Other useful utilities
-Plug 'jiangmiao/auto-pairs'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'junegunn/goyo.vim' " distraction free writing mode
-Plug 'tpope/vim-surround' " type ysks' to wrap the word with '' or type cs'` to change 'word' to `word`
-Plug 'godlygeek/tabular' " type ;Tabularize /= to align the =
 Plug 'gcmt/wildfire.vim' " in Visual mode, type i' to select all text in '', or type i) i] i} ip
 Plug 'brooth/far.vim'
 Plug 'tmhedberg/SimpylFold'
@@ -319,14 +295,18 @@ Plug 'vim-scripts/restore_view.vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'kana/vim-textobj-user'
 Plug 'roxma/nvim-yarp'
-
 Plug 'vim-scripts/ctags.vim'
 
 "My
+Plug 'godlygeek/tabular' " type ;Tabularize /= to align the =
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround' " type ysks' to wrap the word with '' or type cs'` to change 'word' to `word`
 Plug 'scrooloose/nerdcommenter' " in <space>cc to comment a line
 Plug 'jlanzarotta/bufexplorer'
+Plug 'machakann/vim-highlightedyank' "High yank
 Plug 'rking/ag.vim'
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'kevinhwang91/rnvimr'
 "Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -337,6 +317,17 @@ Plug 'vim-scripts/OmniCppComplete'
 call plug#end()
 """
 autocmd VimEnter * RainbowParenthesesToggle
+"ranger nvim
+let g:rnvimr_ex_enable   = 1
+let g:rnvimr_pick_enable = 1
+nnoremap <silent> R :RnvimrSync<CR>:RnvimrToggle<CR><C-\><C-n>:RnvimrResize 0<CR>
+let g:rnvimr_layout = { 'relative': 'editor',
+            \ 'width': &columns,
+            \ 'height': &lines,
+            \ 'col': 0,
+            \ 'row': 0,
+            \ 'style': 'minimal' }
+let g:rnvimr_presets = [{'width': 0.7, 'height': 0.7}]
 " ---
 " --- stl
 " ---
@@ -370,7 +361,7 @@ if empty(glob('~/.config/nvim/_machine_specific.vim'))
 endif
 source ~/.config/nvim/_machine_specific.vim
 
-" clang
+"clang
 let g:ncm2_pyclang#library_path='/usr/lib/llvm-5.0/lib'
 let g:ncm2_pyclang#library_path='/usr/lib64/libclang.so.5.0'
 
@@ -379,7 +370,6 @@ let g:ncm2_pyclang#database_path = [
 	\ 'compile_commands.json',
 	\ 'build/compile_commands.json'
 	\ ]
-
 let g:ncm2_pyclang#args_file_path=['.clang_complete']
 
 
@@ -491,13 +481,6 @@ let g:indent_guides_color_change_percent = 1
 silent! unmap <LEADER>ig
 autocmd WinEnter * silent! unmap <LEADER>ig
 
-
-" ===
-" === some error checking
-" ===
-
-
-
 " ===
 " === MarkdownPreview
 " ===
@@ -529,12 +512,6 @@ let g:mkdp_page_title = '「${name}」'
 " ===
 let g:python_highlight_all = 1
 " let g:python_slow_sync = 0
-
-
-" ===
-" === Taglist
-" ===
-
 
 " ===
 " === vim-table-mode
@@ -584,7 +561,7 @@ let g:SignatureMap = {
 " === Undotree
 " ===
 let g:undotree_DiffAutoOpen = 0
-map L :UndotreeToggle<CR>
+map B :UndotreeToggle<CR>
 
 " ==
 " == vim-multiple-cursor
@@ -604,7 +581,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 source ~/.config/nvim/snippits.vim
 
 
-" Startify
+"Startify
 let g:startify_lists = [
       \ { 'type': 'files',     'header': ['   MRU']            },
       \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
@@ -612,18 +589,14 @@ let g:startify_lists = [
       \ ]
 
 
-" Testring my own plugin
-if !empty(glob('~/Github/vim-calc/vim-calc.vim'))
-  source ~/Github/vim-calc/vim-calc.vim
-endif
 
 "html
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,php EmmetInstall
 let g:user_emmet_leader_key=','
 
-" Open the _machine_specific.vim file if it has just been created
-if has_machine_specific_file == 0
-  exec "e ~/.config/nvim/_machine_specific.vim"
-endif
-
+let g:python_host_prog  = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
+let g:LanguageClient_serverCommands = {
+            \ 'python':['/usr/bin/pyls'],
+            \}
