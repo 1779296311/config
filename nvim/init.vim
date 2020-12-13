@@ -2,20 +2,36 @@
 "| '_ ` _ \| | | |_____| '_ \ \ / / | '_ ` _ \
 "| | | | | | |_| |_____| | | \ V /| | | | | | |
 "|_| |_| |_|\__, |     |_| |_|\_/ |_|_| |_| |_|
-           "|___/
+"|___/
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+"colorscheme space_vim_theme
+"colorscheme deus
+"colorscheme hemisu
+"colorscheme deep-space
+"let g:quantum_black=1
+"colorscheme quantum
+
+"colorscheme OceanicNext
+"let g:oceanic_next_terminal_bold = 1
+"let g:oceanic_next_terminal_italic = 1
+
+colorscheme onedark
+syntax on
+set termguicolors     " enable true colors support
+set background=dark
 
 
 filetype plugin on
 filetype detect
 let &t_ut=''
 set autochdir
-set tags=~/.local/share/nvim/tags
+"set tags = ~/.local/share/nvim/tags
 set completeopt-=preview
 
 set encoding=UTF-8
@@ -25,15 +41,15 @@ language message zh_CN.UTF-8
 
 set number
 set relativenumber
-set cursorline
-set cursorcolumn
+"set cursorline
+"set cursorcolumn
 set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set list
 set listchars=tab:▸\ ,trail:▫
-set scrolloff=5
+set scrolloff=25
 set ttimeoutlen=0
 set viewoptions=cursor,folds,slash,unix
 set wrap
@@ -59,8 +75,7 @@ exec "nohlsearch"
 set ignorecase
 set smartcase
 set clipboard=unnamedplus
-"+y
-vnoremap <Leader>u "y<Bar> :call system('xclip',@y)<CR><ESC><ESC>
+
 let mapleader=" "
 "     ^
 "     i
@@ -109,6 +124,12 @@ nmap d' dh'
 nmap d" dh"
 nmap d{ dh{
 nmap d< dh<
+
+nmap d] dr]
+nmap d) dr)
+nmap d} dr}
+nmap d> dr>
+
 nmap u[ uh[
 nmap u( uh(
 nmap u' uh'
@@ -142,6 +163,10 @@ nmap zz[ yss[
 nmap zz{ yss{
 nmap zz( yss(
 
+
+"+y
+vnoremap <Leader>u "y<Bar> :call system('xclip',@y)<CR><ESC><ESC>
+
 iab syso    int main(int argc,const char *argv[]){<cr><??>;<cr>return 0;}<Esc>
 
 map <Tab> <CR>
@@ -164,14 +189,25 @@ noremap <LEADER>k <c-w>j
 noremap <LEADER>j <c-w>h
 noremap <LEADER>l <c-w>l
 
-map sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
-map zn :set nosplitbelow<CR>:split<CR>:set splitright<CR>
+"inoremap ss <Esc>A
+
+" split the screens
+noremap si :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap sk :set splitbelow<CR>:split<CR>
+noremap sj :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap sl :set splitright<CR>:vsplit<CR>
+
+" Place the two screens up and down
+noremap sn <C-w>t<C-w>K
+" Place the two screens side by side
+noremap sa <C-w>t<C-w>H
 
 "load my_script
 source ~/.config/nvim/my_script/my_split.vim
 source ~/.config/nvim/my_script/my_header.vim
-
 source ~/.config/nvim/_machine_specific.vim
+"My snippits
+source ~/.config/nvim/snippits.vim
 
 "                                nvim 变慢
 "save the change after close
@@ -213,11 +249,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "
 
 " Git
-Plug 'rhysd/conflict-marker.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'mhinz/vim-signify'
+"Plug 'rhysd/conflict-marker.vim'
+"Plug 'tpope/vim-fugitive'
+"Plug 'mhinz/vim-signify'
 "Plug 'gisphm/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] }
-
+Plug 'airblade/vim-gitgutter'
 " HTML, CSS, JavaScript, PHP, JSON, etc.
 "Plug 'elzr/vim-json'
 "Plug 'hail2u/vim-css3-syntax'
@@ -228,8 +264,8 @@ Plug 'mhinz/vim-signify'
 
 
 " Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
-Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
+"Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
+"Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 
 " For general writing
 "Plug 'reedes/vim-wordy'
@@ -256,7 +292,7 @@ Plug 'brooth/far.vim'               " search word in * file
 Plug 'gcmt/wildfire.vim'            "<ENTER> in Visual mode, type i' to select all text in '', or type i) i] i} ip
 Plug 'terryma/vim-multiple-cursors' "<c-k> <c-p>
 Plug 'godlygeek/tabular'            " type ;Tabularize /= to align the =
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'         " ()[]{}
 Plug 'tpope/vim-surround'           " type ysks' to wrap the word with '' or type cs'` to change 'word' to `word`
 Plug 'scrooloose/nerdcommenter'     " in <space>cc to comment a line
 Plug 'jlanzarotta/bufexplorer'
@@ -273,34 +309,60 @@ Plug 'honza/vim-snippets'
 "C++ stl
 Plug 'octol/vim-cpp-enhanced-highlight'
 "c++ QT
-Plug 'vim-scripts/OmniCppComplete'
+"Plug 'vim-scripts/OmniCppComplete'
 "autoformat
 Plug 'Chiel92/vim-autoformat'
+"Floaterm
+Plug 'voldikss/vim-floaterm'
+"color
+Plug 'mhartington/oceanic-next'
+Plug 'joshdick/onedark.vim'
+"line
+Plug 'mg979/vim-xtabline'
 call plug#end()
+
+"Floaterm
+let g:floaterm_keymap_toggle = '<LEADER>ff'
+let g:floaterm_keymap_next   = '<F2>'
+let g:floaterm_keymap_prev   = '<F3>'
+let g:floaterm_keymap_new    = '<F4>'
+
+let g:floaterm_wintype='floating'
+let g:floaterm_autoinsert=1
+let g:floaterm_width=0.8
+let g:floaterm_height=0.8
+let g:floaterm_wintitle=1
+let g:floaterm_autoclose=1
+hi FloatermBorder guibg=orange guifg=cyan
 
 "autoformau
 let g:python3_host_prog = '/usr/lib/python3.8'
 noremap <LEADER>f :Autoformat<CR>
 
-"状态栏
-let g:airline_theme='base16_google'
+"git
+let g:gitgutter_sign_added = ''
+let g:gitgutter_sign_modified = ''
+let g:gitgutter_sign_removed = ''
+let g:gitgutter_sign_removed_first_line = ''
+let g:gitgutter_sign_removed_above_and_below = ''
+let g:gitgutter_sign_modified_removed = ''
 
 "auto size
- lua << EOF
+lua << EOF
 local function ignore_by_buftype(types)
-  local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
-  for _, type in pairs(types) do
+local buftype = vim.api.nvim_buf_get_option(0, 'buftype')
+for _, type in pairs(types) do
     if type == buftype then
-      return 1
+        return 1
     end
-  end
+end
 end
 local golden_size = require("golden_size")
 -- set the callbacks, preserve the defaults
 golden_size.set_ignore_callbacks({
-  { ignore_by_buftype, {'Undotree','quickfix', 'nerdtree','current','Vista'} },
-  { golden_size.ignore_float_windows }, -- default one, ignore float windows
-  { golden_size.ignore_by_window_flag }, -- default one, ignore windows with w:ignore_gold_size=1
+{ ignore_by_buftype, {'Undotree','quickfix', 'nerdtree','current','Vista'} },
+{ golden_size.ignore_float_windows }, -- default one, ignore float windows
+{ golden_size.ignore_by_window_flag }, -- default one, ignore windows with w:ignore_gold_size=1
 })
 EOF
 
@@ -348,43 +410,42 @@ let g:ctrlsf_default_root='cwd'
 " ===
 let has_machine_specific_file = 1
 if empty(glob('~/.config/nvim/_machine_specific.vim'))
-  let has_machine_specific_file = 0
-  silent! exec "!cp ~/.config/nvim/default_configs/_machine_specific_default.vim ~/.config/nvim/_machine_specific.vim"
+    let has_machine_specific_file = 0
+    silent! exec "!cp ~/.config/nvim/default_configs/_machine_specific_default.vim ~/.config/nvim/_machine_specific.vim"
 endif
 
 
 
-
-
-"colorscheme space_vim_theme
-colorscheme deus
-
 "coc
-autocmd CursorHold * silent call CocActionAsync('highlight')
-nmap <expr> <silent> <c-d> <SID>select_cur()
-nmap <LEADER>nm <PLUG>(coc-rename)
+set ambiwidth=single
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+"nmap <expr> <silent> <c-d> <SID>select_cur()
+"nmap <LEADER>nm <PLUG>(coc-rename)
 set updatetime=3
 set signcolumn=yes
-function! s:select_cur()
-    if !get(g:,'coc_cursors_activated',0)
-        return "\<PLUG>(coc-cursors-word)"
-    endif
-    return "*\<PLUG>(coc-cursors-word):nohlsearch\<CR>"
-endfunc
+
+"function! s:select_cur()
+    "if !get(g:,'coc_cursors_activated',0)
+        "return "\<PLUG>(coc-cursors-word)"
+    "endif
+    "return "*\<PLUG>(coc-cursors-word):nohlsearch\<CR>"
+"endfunc
+
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<Tab>" :
+            \ coc#refresh()
 
 "Tlist
 let Tlist_Ctags_Cmd='/usr/bin/ctags'
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
 let Tlist_Compact_Format=1
+
 set tags=tags;
 set autochdir
 
@@ -405,10 +466,10 @@ set autochdir
 "let g:NERDTree_titlle="[NERDTree]"
 
 "function! NERDTree_Start()
-    "exe 'NERDTree'
+"exe 'NERDTree'
 "endfunction
 "function! NERDTree_IsValid()
-    "return 1
+"return 1
 "endfunction
 
 
@@ -419,37 +480,41 @@ set autochdir
 "let g:winManagerWidth=30
 
 "nmap nm  :WMToggle<CR><LEADER>l:q!<CR>
- 
+
 "let g:AutoOpenWinManager=1
 
- 
 
-set termguicolors     " enable true colors support
+
 let g:space_vim_transp_bg = 1
-set background=dark
 
+""状态栏
+"let g:airline_theme='base16_google'
+let g:airline_theme = 'onedark'
 let g:lightline = {
-  \     'active': {
-  \         'left': [['mode', 'paste' ], ['readonly', 'filename', 'modified']],
-  \         'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding']]
-  \     }
-  \ }
+            \ 'colorscheme' : 'onedark',
+            \ }
+"let g:lightline = {
+            "\     'active': {
+            "\         'left': [['mode', 'paste' ], ['readonly', 'filename', 'modified']],
+            "\         'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding']]
+            "\     }
+            "\ }
 
 
 " ==
 " == NERDTree-git
 " ==
 "let g:NERDTreeIndicatorMapCustom = {
-    "\ "Modified"  : "✹",
-    "\ "Staged"    : "✚",
-    "\ "Untracked" : "✭",
-    "\ "Renamed"   : "➜",
-    "\ "Unmerged"  : "═",
-    "\ "Deleted"   : "✖",
-    "\ "Dirty"     : "✗",
-    "\ "Clean"     : "✔︎",
-    "\ "Unknown"   : "?"
-    "\ }
+            "\ "Modified"  : "✹",
+            "\ "Staged"    : "✚",
+            "\ "Untracked" : "✭",
+            "\ "Renamed"   : "➜",
+            "\ "Unmerged"  : "═",
+            "\ "Deleted"   : "✖",
+            "\ "Dirty"     : "✗",
+            "\ "Clean"     : "✔︎",
+            "\ "Unknown"   : "?"
+            "\ }
 
 " ===
 " === NCM2
@@ -469,33 +534,33 @@ let g:lightline = {
 " ===
 " === MarkdownPreview
 " ===
-let g:mkdp_auto_start = 1
-let g:mkdp_auto_close = 1
-let g:mkdp_refresh_slow = 0
-let g:mkdp_command_for_global = 0
-let g:mkdp_open_to_the_world = 0
-let g:mkdp_open_ip = ''
-let g:mkdp_browser = 'firefox'
-let g:mkdp_echo_preview_url = 0
-let g:mkdp_browserfunc = ''
-let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1
-    \ }
-let g:mkdp_markdown_css = ''
-let g:mkdp_highlight_css = ''
-let g:mkdp_port = ''
-let g:mkdp_page_title = '「${name}」'
+"let g:mkdp_auto_start = 1
+"let g:mkdp_auto_close = 1
+"let g:mkdp_refresh_slow = 0
+"let g:mkdp_command_for_global = 0
+"let g:mkdp_open_to_the_world = 0
+"let g:mkdp_open_ip = ''
+"let g:mkdp_browser = 'firefox'
+"let g:mkdp_echo_preview_url = 0
+"let g:mkdp_browserfunc = ''
+"let g:mkdp_preview_options = {
+            "\ 'mkit': {},
+            "\ 'katex': {},
+            "\ 'uml': {},
+            "\ 'maid': {},
+            "\ 'disable_sync_scroll': 0,
+            "\ 'sync_scroll_type': 'middle',
+            "\ 'hide_yaml_meta': 1
+            "\ }
+"let g:mkdp_markdown_css = ''
+"let g:mkdp_highlight_css = ''
+"let g:mkdp_port = ''
+"let g:mkdp_page_title = '「${name}」'
 
 " ===
 " === Python-syntax
 " ===
-let g:python_highlight_all = 1
+" let g:python_highlight_all = 1
 " let g:python_slow_sync = 0
 
 " ===
@@ -508,44 +573,44 @@ map <LEADER>mm :TableModeToggle<CR>
 " ===
 map <C-p> :CtrlP<CR>
 let g:ctrlp_prompt_mappings = {
-  \ 'PrtSelectMove("j")':   ['<c-e>', '<down>'],
-  \ 'PrtSelectMove("k")':   ['<c-u>', '<up>'],
-  \ }
+            \ 'PrtSelectMove("j")':   ['<c-e>', '<down>'],
+            \ 'PrtSelectMove("k")':   ['<c-u>', '<up>'],
+            \ }
 
 
 " ===
 " === vim-signiture
 " ===
 let g:SignatureMap = {
-        \ 'Leader'             :  "m",
-        \ 'PlaceNextMark'      :  "m,",
-        \ 'ToggleMarkAtLine'   :  "m.",
-        \ 'PurgeMarksAtLine'   :  "dm-",
-        \ 'DeleteMark'         :  "dm",
-        \ 'PurgeMarks'         :  "dm/",
-        \ 'PurgeMarkers'       :  "dm?",
-        \ 'GotoNextLineAlpha'  :  "m<LEADER>",
-        \ 'GotoPrevLineAlpha'  :  "",
-        \ 'GotoNextSpotAlpha'  :  "m<LEADER>",
-        \ 'GotoPrevSpotAlpha'  :  "",
-        \ 'GotoNextLineByPos'  :  "",
-        \ 'GotoPrevLineByPos'  :  "",
-        \ 'GotoNextSpotByPos'  :  "mn",
-        \ 'GotoPrevSpotByPos'  :  "mp",
-        \ 'GotoNextMarker'     :  "",
-        \ 'GotoPrevMarker'     :  "",
-        \ 'GotoNextMarkerAny'  :  "",
-        \ 'GotoPrevMarkerAny'  :  "",
-        \ 'ListLocalMarks'     :  "m/",
-        \ 'ListLocalMarkers'   :  "m?"
-        \ }
+            \ 'Leader'             :  "m",
+            \ 'PlaceNextMark'      :  "m,",
+            \ 'ToggleMarkAtLine'   :  "m.",
+            \ 'PurgeMarksAtLine'   :  "dm-",
+            \ 'DeleteMark'         :  "dm",
+            \ 'PurgeMarks'         :  "dm/",
+            \ 'PurgeMarkers'       :  "dm?",
+            \ 'GotoNextLineAlpha'  :  "m<LEADER>",
+            \ 'GotoPrevLineAlpha'  :  "",
+            \ 'GotoNextSpotAlpha'  :  "m<LEADER>",
+            \ 'GotoPrevSpotAlpha'  :  "",
+            \ 'GotoNextLineByPos'  :  "",
+            \ 'GotoPrevLineByPos'  :  "",
+            \ 'GotoNextSpotByPos'  :  "mn",
+            \ 'GotoPrevSpotByPos'  :  "mp",
+            \ 'GotoNextMarker'     :  "",
+            \ 'GotoPrevMarker'     :  "",
+            \ 'GotoNextMarkerAny'  :  "",
+            \ 'GotoPrevMarkerAny'  :  "",
+            \ 'ListLocalMarks'     :  "m/",
+            \ 'ListLocalMarkers'   :  "m?"
+            \ }
 
 
 " ===
 " === Undotree
 " ===
-let g:undotree_DiffAutoOpen = 0
-map B :UndotreeToggle<CR>
+"let g:undotree_DiffAutoOpen = 0
+"map B :UndotreeToggle<CR>
 
 " ==
 " == vim-multiple-cursor
@@ -556,51 +621,49 @@ let g:multi_cursor_select_all_word_key = '<a-k>'
 let g:multi_cursor_start_key           = 'g<c-k>'
 let g:multi_cursor_select_all_key      = 'g<a-k>'
 let g:multi_cursor_next_key            = '<c-k>'
-let g:multi_cursor_prev_key            = '<c-p>' 
+let g:multi_cursor_prev_key            = '<c-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
 
-" My snippits
-source ~/.config/nvim/snippits.vim
 
 
 "vim欢迎界面
 ""Startify
 "let g:startify_lists = [
-      "\ { 'type': 'files',     'header': ['   MRU']            },
-      "\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-      "\ { 'type': 'commands',  'header': ['   Commands']       },
-      "\ ]
+            "\ { 'type': 'files',     'header': ['   MRU']            },
+            "\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+            "\ { 'type': 'commands',  'header': ['   Commands']       },
+            "\ ]
 
 "Dashboard设置
 let g:dashboard_custom_header = [
-        \ '',
-        \'               _____                    _____                   _______                   _____                    _____                    _____            ',
-        \'              /\    \                  /\    \                 /::\    \                 /\    \                  /\    \                  /\    \           ',
-        \'             /::\____\                /::\    \               /::::\    \               /::\____\                /::\    \                /::\____\          ',
-        \'            /::::|   |               /::::\    \             /::::::\    \             /:::/    /                \:::\    \              /::::|   |          ',
-        \'           /:::::|   |              /::::::\    \           /::::::::\    \           /:::/    /                  \:::\    \            /:::::|   |          ',
-        \'          /::::::|   |             /:::/\:::\    \         /:::/~~\:::\    \         /:::/    /                    \:::\    \          /::::::|   |          ',
-        \'         /:::/|::|   |            /:::/__\:::\    \       /:::/    \:::\    \       /:::/____/                      \:::\    \        /:::/|::|   |          ',
-        \'        /:::/ |::|   |           /::::\   \:::\    \     /:::/    / \:::\    \      |::|    |                       /::::\    \      /:::/ |::|   |          ',
-        \'       /:::/  |::|   | _____    /::::::\   \:::\    \   /:::/____/   \:::\____\     |::|    |     _____    ____    /::::::\    \    /:::/  |::|___|______    ',
-        \'      /:::/   |::|   |/\    \  /:::/\:::\   \:::\    \ |:::|    |     |:::|    |    |::|    |    /\    \  /\   \  /:::/\:::\    \  /:::/   |::::::::\    \   ',
-        \'     /:: /    |::|   /::\____\/:::/__\:::\   \:::\____\|:::|____|     |:::|    |    |::|    |   /::\____\/::\   \/:::/  \:::\____\/:::/    |:::::::::\____\  ',
-        \'     \::/    /|::|  /:::/    /\:::\   \:::\   \::/    / \:::\    \   /:::/    /     |::|    |  /:::/    /\:::\  /:::/    \::/    /\::/    / ~~~~~/:::/    /  ',
-        \'      \/____/ |::| /:::/    /  \:::\   \:::\   \/____/   \:::\    \ /:::/    /      |::|    | /:::/    /  \:::\/:::/    / \/____/  \/____/      /:::/    /   ',
-        \'              |::|/:::/    /    \:::\   \:::\    \        \:::\    /:::/    /       |::|____|/:::/    /    \::::::/    /                       /:::/    /    ',
-        \'              |::::::/    /      \:::\   \:::\____\        \:::\__/:::/    /        |:::::::::::/    /      \::::/____/                       /:::/    /     ',
-        \'              |:::::/    /        \:::\   \::/    /         \::::::::/    /         \::::::::::/____/        \:::\    \                      /:::/    /      ',
-        \'              |::::/    /          \:::\   \/____/           \::::::/    /           ~~~~~~~~~~               \:::\    \                    /:::/    /       ',
-        \'              /:::/    /            \:::\    \                \::::/    /                                      \:::\    \                  /:::/    /        ',
-        \'             /:::/    /              \:::\____\                \::/____/                                        \:::\____\                /:::/    /         ',
-        \'             \::/    /                \::/    /                 ~~                                               \::/    /                \::/    /          ',
-        \'              \/____/                  \/____/                                                                    \/____/                  \/____/           ',
-        \ '                                                                               [JY]',
-        \ '',
-      \ ]
-                                                                                                                                                      
+            \ '',
+            \'               _____                    _____                   _______                   _____                    _____                    _____            ',
+            \'              /\    \                  /\    \                 /::\    \                 /\    \                  /\    \                  /\    \           ',
+            \'             /::\____\                /::\    \               /::::\    \               /::\____\                /::\    \                /::\____\          ',
+            \'            /::::|   |               /::::\    \             /::::::\    \             /:::/    /                \:::\    \              /::::|   |          ',
+            \'           /:::::|   |              /::::::\    \           /::::::::\    \           /:::/    /                  \:::\    \            /:::::|   |          ',
+            \'          /::::::|   |             /:::/\:::\    \         /:::/~~\:::\    \         /:::/    /                    \:::\    \          /::::::|   |          ',
+            \'         /:::/|::|   |            /:::/__\:::\    \       /:::/    \:::\    \       /:::/____/                      \:::\    \        /:::/|::|   |          ',
+            \'        /:::/ |::|   |           /::::\   \:::\    \     /:::/    / \:::\    \      |::|    |                       /::::\    \      /:::/ |::|   |          ',
+            \'       /:::/  |::|   | _____    /::::::\   \:::\    \   /:::/____/   \:::\____\     |::|    |     _____    ____    /::::::\    \    /:::/  |::|___|______    ',
+            \'      /:::/   |::|   |/\    \  /:::/\:::\   \:::\    \ |:::|    |     |:::|    |    |::|    |    /\    \  /\   \  /:::/\:::\    \  /:::/   |::::::::\    \   ',
+            \'     /:: /    |::|   /::\____\/:::/__\:::\   \:::\____\|:::|____|     |:::|    |    |::|    |   /::\____\/::\   \/:::/  \:::\____\/:::/    |:::::::::\____\  ',
+            \'     \::/    /|::|  /:::/    /\:::\   \:::\   \::/    / \:::\    \   /:::/    /     |::|    |  /:::/    /\:::\  /:::/    \::/    /\::/    / ~~~~~/:::/    /  ',
+            \'      \/____/ |::| /:::/    /  \:::\   \:::\   \/____/   \:::\    \ /:::/    /      |::|    | /:::/    /  \:::\/:::/    / \/____/  \/____/      /:::/    /   ',
+            \'              |::|/:::/    /    \:::\   \:::\    \        \:::\    /:::/    /       |::|____|/:::/    /    \::::::/    /                       /:::/    /    ',
+            \'              |::::::/    /      \:::\   \:::\____\        \:::\__/:::/    /        |:::::::::::/    /      \::::/____/                       /:::/    /     ',
+            \'              |:::::/    /        \:::\   \::/    /         \::::::::/    /         \::::::::::/____/        \:::\    \                      /:::/    /      ',
+            \'              |::::/    /          \:::\   \/____/           \::::::/    /           ~~~~~~~~~~               \:::\    \                    /:::/    /       ',
+            \'              /:::/    /            \:::\    \                \::::/    /                                      \:::\    \                  /:::/    /        ',
+            \'             /:::/    /              \:::\____\                \::/____/                                        \:::\____\                /:::/    /         ',
+            \'             \::/    /                \::/    /                 ~~                                               \::/    /                \::/    /          ',
+            \'              \/____/                  \/____/                                                                    \/____/                  \/____/           ',
+            \ '                                                                              [JY]',
+            \ '',
+            \ ]
+
 
 ""html
 "let g:user_emmet_install_global = 0
